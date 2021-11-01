@@ -1,0 +1,34 @@
+MUST HAVE VIRTUAL ENV TO RUN THE DEVELOPER SERVER AND INSTALL FLASK
+
+
+open terminal 
+
+use 
+
+vinylvenv is name of my choice u can use anything
+RUN 
+- python -m venv vinylvenv
+
+then u will see a directory vinylvenv
+
+cd into Scripts
+just run
+
+- activate.bat
+
+you will now see (vinylvenv) on the side
+
+this meanse Now your venv is active.
+
+install flask
+
+running 
+- pin install flask
+
+
+then just navigate to start  of the directory and run
+
+- flask run.py 
+
+
+u will get the developer server running at some ip address
