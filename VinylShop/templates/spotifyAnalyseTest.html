@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block analyse %}
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">PLAYLIST ANALYSIS</h1>
+        </div>
+      </div>
+    </section>
+    <!-- ALBUMS -->
+   <section class="albums">
+      <div class="albums-container">
+        <div class="albums-content">
+          <h2>View Your Favorites</h2>
+        </div>
+		<div class="albums-content">
+          <h2>Top 3 Albums</h2>
+        </div>
+        <div class="albums-cards-container">
+          {% for album in topAlbums %}
+          <div class="album">
+              {% set img_src = (img_base ~ album.album_img) %}
+            <img src={{img_src}} />
+            <div class="album-info">
+              <h2>{{album.name}}</h2>
+              <h4>{{album.artist}}</h4>
+              {% set occurrences = ('Occurrences: ' ~ album.count) %}
+              <h4>{{occurrences}}</h4>
+                {% set check_url_full = (check_url ~ '/' ~ album.album_img) %}
+              <a href={{check_url_full}}>CHECK AVAILABILITY</a>
+            </div>
+          </div>
+  {% endfor %}
+		 </div>
+		  <div class="albums-content">
+          <h2>Top 3 Artists</h2>
+        </div>
+        <div class="albums-cards-container">
+          {% for artist in topArtists %}
+          <div class="album">
+              {% set img_src = (img_base ~ artist.artist_img) %}
+            <img src={{img_src}} />
+            <div class="album-info">
+              <h2>{{artist.name}}</h2>
+              {% set occurrences = ('Occurrences: ' ~ artist.count) %}
+              <h4>{{occurrences}}</h4>
+                {% set check_url_full = (check_url ~ '/' ~ artist.artist_img) %}
+              <a href={{check_url_full}}>CHECK AVAILABILITY</a>
+            </div>
+          </div>
+  {% endfor %}
+          </div>
+      </div>
+    </section>
+
+{% endblock %}

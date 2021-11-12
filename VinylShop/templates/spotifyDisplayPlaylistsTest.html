@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+
+{% block display %}
+
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">Your Library Of Playlists.</h1>
+          <div class="terms">
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ALBUMS -->
+    <section class="albums">
+      <div class="albums-container">
+        <div class="albums-content">
+          <h2>Choose and Analyse Specific Playlist for Vinyl Record</h2>
+        </div>
+        <div class="albums-cards-container">
+            {% for playlist in playlists %}
+          <div class="album">
+            <h2>{{playlist.name}}</h2>
+              {% set playlistImgUrl = 'https://mosaic.scdn.co/640/' ~ playlist.playlist_img %}
+            <img src="{{playlistImgUrl}}" />
+            {% set upload_url = (redirect_url ~ '/' ~ playlist.id ~ '/' ~ playlist.playlist_img ~ '/' ~ playlist.name) %}
+            <div class="album-info">
+              <a href={{upload_url}}>UPLOAD NOW</a>
+            </div>
+          </div>
+              {% endfor %}
+
+        </div>
+      </div>
+    </section>
+
+{% endblock display %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block check %}
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">Check Availability</h1>
+        </div>
+      </div>
+    </section>
+
+<div style="text-align: center">
+  <h1> Album Is Available! </h1>
+  {% set playlistImgUrl = 'https://mosaic.scdn.co/640/' ~ playlist_img %}
+<img src={{playlistImgUrl}} height="240px" width="240px">
+  <h2> Price: €30 </h2>
+  <a href={{shipping_url}}><button>Order For Delivery</button></a>
+  <a href={{card_url}}><button>Order For Collection</button></a>
+</div>
+
+{% endblock %}

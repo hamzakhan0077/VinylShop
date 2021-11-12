@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block displayCSS %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles/display.css') }}" />
+{% endblock %}
+
+{% block view %}
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">View Playlist</h1>
+                <div class="terms">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ALBUMS -->
+    <section class="albums">
+        <div style="text-align: center;">
+        <a href={{analyse_url}}><button class="hero-button">ANALYSE</button></a>
+	<a href=""><button class="hero-button">RENAME</button></a>
+	<a href=""><button class="hero-button">DELETE</button></a>
+        </div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+        <table>
+  <tr>
+    <th>Song Name</th>
+    <th>Artist</th>
+    <th>Album</th>
+  </tr>
+  {% for song in playlistSongs %}
+  <tr>
+   <td>{{song.name}}</td>
+      {% set img_src_artist = (img_base ~ song.artist_img) %}
+      {% set img_src_album = (img_base ~ song.album_img) %}
+    <td><img src={{img_src_artist}} style="height:180px; float: right">{{song.artist}}</td>
+    <td><img src={{img_src_album}} style="height:180px; float: right">{{song.album}}</td>
+  </tr>
+  {% endfor %}
+</table>
+        <!--<table>
+            <tr>
+                <th><h1>Songs:</h1></th>
+                <th><h1>Artists:</h1></th>
+            </tr>
+                <td>
+                    {% for song in playlistSongs %}
+                    <div class="album">
+                        <img src={{song.album_img}} />
+                        <div class="album-info">
+                            <h2>{{song.name}}</h2>
+                            <h4>{{song.artist}}</h4>
+                            <h4>{{song.album}}</h4>
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </td>
+                
+        </table>-->
+    </section>
+
+{% endblock %}
