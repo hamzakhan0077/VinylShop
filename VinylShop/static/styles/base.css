@@ -1,0 +1,55 @@
+:root {
+  --blue: #2d46b9;
+  --white: #ffffff;
+  --black: #000000;
+  --green1: #1ed760;
+  --green2: #1db954;
+  --gray1: #c1c3c6;
+  --gray2: #919496;
+  --gray3: #616467;
+  --hero-bg-color: #070706;
+  --hero-terms-link: #efefef;
+}
+
+/* Overwrite  defaults */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+td {
+  padding: 0em;
+  max-width: 50%;
+}
+
+table div {
+  margin-right: 0;
+}
+
+table ul {
+
+  margin: 0 0;
+}
