@@ -1,0 +1,8 @@
+Google:
+Email address: SoftwareSpotifyProject@gmail.com
+Password: securePassword375
+
+
+Spotify:
+Client ID: 1898d3918a384920a46c13f052518645
+Client Secret: 3938497a95f145a5a012a12afdeddd96
