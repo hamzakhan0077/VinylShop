@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block cardCSS %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles/shipping.css') }}" />
+
+{% endblock %}
+
+{% block shipping %}
+
+<section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">Please Enter Your Phone Number and Email Address</h1>
+          <div class="terms">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+<div class="container">
+  <h1>Notification Details</h1>
+  <p>We will notify you when the vinyl is in stock</p>
+  <hr />
+  <div class="form">
+
+  <div class="fields fields--2">
+    <label class="field">
+      <span class="field__label" for="firstname">Email Address</span>
+      <input class="field__input" type="text" id="firstname" value="" />
+    </label>
+    <label class="field">
+      <span class="field__label" for="lastname">Phone Number</span>
+      <input class="field__input" type="text" id="lastname" value="" />
+    </label>
+  </div>
+  </div>
+  <hr>
+  <a href="{{request_success_url}}"><button class="hero-button">Request Vinyl</button></a>
+</div>
+
+{% endblock %}

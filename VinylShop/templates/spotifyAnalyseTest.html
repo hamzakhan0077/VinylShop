@@ -45,7 +45,7 @@
               <h2>{{artist.name}}</h2>
               {% set occurrences = ('Occurrences: ' ~ artist.count) %}
               <h4>{{occurrences}}</h4>
-                {% set check_url_full = (check_url ~ '/' ~ artist.artist_img) %}
+                {% set check_url_full = (checkArtistVinylUrl ~ '/' ~ artist.position) %}
               <a href={{check_url_full}}>CHECK AVAILABILITY</a>
             </div>
           </div>

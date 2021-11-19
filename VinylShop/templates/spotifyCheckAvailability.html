@@ -9,13 +9,24 @@
       </div>
     </section>
 
+{% if available %}
 <div style="text-align: center">
   <h1> Album Is Available! </h1>
   {% set playlistImgUrl = 'https://mosaic.scdn.co/640/' ~ playlist_img %}
 <img src={{playlistImgUrl}} height="240px" width="240px">
   <h2> Price: €30 </h2>
-  <a href={{shipping_url}}><button>Order For Delivery</button></a>
-  <a href={{card_url}}><button>Order For Collection</button></a>
+  <a href={{shipping_url}}><button class="hero-button">Order For Delivery</button></a>
+  <br>
+  <a href={{card_url}}><button class="hero-button">Order For Collection</button></a>
 </div>
+{% else %}
+<div style="text-align: center">
+  <h1> Album Is Not Available - Would you like to request it? </h1>
+  {% set playlistImgUrl = 'https://mosaic.scdn.co/640/' ~ playlist_img %}
+<img src={{playlistImgUrl}} height="240px" width="240px">
+  <h2> Price: €30 </h2>
+  <a href={{request_url}}><button class="hero-button">Request Vinyl</button></a>
+</div>
+{% endif %}
 
 {% endblock %}
