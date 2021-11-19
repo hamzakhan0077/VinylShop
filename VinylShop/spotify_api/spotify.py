@@ -5,12 +5,19 @@ from pickle import *
 from VinylShop.spotify_api.credentials import *
 from flask import redirect
 from copy import deepcopy
+from flask import session
 
 BASE_URL = "https://api.spotify.com/v1/"
 
 null = None
 false = False
 true = True
+
+availableVinyls = {'ab67616d0000b273692d9189b2bd75525893f0c1':"The Beatles",
+                       'ab67616d0000b273370c12f82872c9cfaee80193':"Tame Impala",
+                       'ab67616d0000b2734ada80e2e0d11d8f6a99d42e':"Pink Floyd"}
+
+
 
 EXAMPLE_PLAYLISTS_RESPONSE = {
   "href": "https://api.spotify.com/v1/users/9zjte07qm6qxb3ynn9bm6atiu/playlists?offset=0&limit=3",
@@ -253,6 +260,8 @@ EXAMPLE_RESPONSE = {
 }
 
 
+at = None
+
 def get_auth_code():
     scopes = 'playlist-read-private playlist-read-collaborative user-library-read user-top-read user-read-private user-read-email'
 
@@ -284,11 +293,16 @@ def spotify_callback(request):
     expires_in = response.get('expires_in')
     error = response.get('error')
 
+    global at
+
+    at = access_token
+
     return redirect(SERVER_URL+"/displayPlaylists/" + str(access_token))
 
 
 def spotify_api_request(endpoint, at, post_=False, put_=False):
-    access_token = at  # FIX - User token
+    #access_token = at  # FIX - User token
+    access_token = session.get('access_token')
     headers = {'Content-Type': 'application/json',
                'Authorization': "Bearer " + access_token}
 
@@ -324,6 +338,8 @@ def get_playlists(at):
     return playlists
 
 
+
+
 def get_songs_in_playlist(playlist_id, at, playlist_obj=None):
     playlist = playlist_obj
     if playlist is None:
@@ -334,7 +350,7 @@ def get_songs_in_playlist(playlist_id, at, playlist_obj=None):
 
     for song in playlist.songs:
         songs.append({'name': song.name, 'artist': song.artist,
-                      'album': song.album, 'album_img': song.album_img, 'artist_img': song.album_img})
+                      'album': song.album, 'album_img': song.album_img, 'artist_img': song.artist_img})
 
     return songs
 
@@ -376,11 +392,13 @@ def getTopArtists(playlist):
             artists[artist] = {'count':1, 'song':song}
     sortedArtists = sorted(artists, key=lambda i: artists[i]['count'], reverse=True)
     orderedArtists = list()
+    position = 0
     for artist in sortedArtists:
         song_of_artist = artists[artist]['song']
         artist_img = song_of_artist.artist_img
         count = artists[artist]['count']
-        artist_info = {'name': artist, 'artist_img': artist_img, 'count': count}
+        artist_info = {'name': artist, 'artist_img': artist_img, 'count': count, 'position': str(position)}
+        position += 1
         orderedArtists.append(artist_info)
     return orderedArtists
 
@@ -422,17 +440,65 @@ def find_most_popular_artist(playlist):
     print(highest_artist_name, highest_artist_amount)
 
 
+def getArtistImages(artistIDs, accessToken=None):
+    global at
+    if accessToken is None:
+        accessToken = at
+
+    artist_id_string = ""
+
+    count = 0
+    for artist in artistIDs:
+        if count == 0:
+            artist_id_string += artist
+        else:
+            artist_id_string += "%2C" + artist
+        count += 1
+
+    endpoint = "artists?ids=" + artist_id_string
+    response = spotify_api_request(endpoint, accessToken)
+
+    if 'error' in response or 'artists' not in response:
+        print(response)
+        return  # FIX: RETURN AN ERROR
+
+    artists_list = response.get('artists')
+    artistImgs = list()
+
+    for artist in artists_list:
+        artistImgs.append(artist['images'][0]['url'][24:])
+
+    print("Artist imgs", artistImgs)
+
+    return artistImgs
+
+
+def updateArtistImages(playlist):
+    artistIDs = list()
+
+    songs = playlist.songs
+
+    for song in songs:
+        artistIDs.append(song.artistID)
+
+    artistImgs = getArtistImages(artistIDs)
+
+    count = 0
+    for song in songs:
+        song.artist_img = artistImgs[count]
+        count += 1
+
+
 def uploadPlaylist(playlist_id, at, playlist_name='Playlist', playlist_img='None', save_playlist=False):
 
-    endpoint = "playlists/" + playlist_id + "/tracks?fields=items(track(name%2Chref%2Calbum(name%2Chref%2Cimages%2C%20artists)))"
+    endpoint = "playlists/" + playlist_id + "/tracks?fields=items(track(name%2Chref%2Calbum(name%2Chref%2Cimages%2C%20artists)))&limit=50"
     response = spotify_api_request(endpoint, at)
 
     if 'error' in response or 'items' not in response:
         print(response)
-        print("HEREError with getting songs in playlist")
         return  # FIX: RETURN AN ERROR
 
-    songs_dictionary = response.get('items')  # response.get('items')
+    songs_dictionary = response.get('items')  
 
     songs = list()
 
@@ -442,10 +508,11 @@ def uploadPlaylist(playlist_id, at, playlist_name='Playlist', playlist_img='None
         song_id = 2
         album = track['album']['name']
         artist = track['album']['artists'][0]['name']
+        artistID = track['album']['artists'][0]['id']
         artist_img = track['album']['images'][0]['url'][24:]
         album_img = track['album']['images'][0]['url'][24:]
 
-        newSong = Song(name, song_id, album, artist, artist_img=artist_img, album_img=album_img)
+        newSong = Song(name, song_id, album, artist, artistID, artist_img=artist_img, album_img=album_img)
 
         songs.append(newSong)
 
@@ -455,4 +522,23 @@ def uploadPlaylist(playlist_id, at, playlist_name='Playlist', playlist_img='None
     if save_playlist:
         print("Saved playlist to database") # FIX DATABASE STUFF
 
+    updateArtistImages(playlist_obj)
+
     return playlist_obj
+
+
+def getAvailableVinylsByArtist(artist_name):
+    global availableVinyls
+    vinyls = list()
+    for vinyl in availableVinyls:
+        if availableVinyls[vinyl] == artist_name:
+            vinyls.append(vinyl)
+
+    return vinyls
+
+
+def checkAlbumAvailability(album):
+    global availableVinyls
+    if album in availableVinyls:
+        return True
+    return False
