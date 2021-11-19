@@ -1,10 +1,10 @@
-from flask import Flask,render_template, url_for,flash, redirect,request,abort
+from flask import Flask,render_template, url_for,flash, redirect,request,abort, session
 
 from VinylShop.forms import *
 from flask_login import login_user,current_user,logout_user,login_required
 from VinylShop.spotify_api import spotify, playlist, song, credentials
 from VinylShop.spotify_api.credentials import SERVER_URL
-from VinylShop.models import User,VinylPlaylist
+from VinylShop.models import *
 
 from VinylShop import app,db,bcrypt
 
@@ -40,6 +40,7 @@ def spotifyCallback():
 def displayPlaylists(access_token):
     global at
     at = access_token
+    session['access_token'] = access_token  # setting session data
     playlistTest = spotify.get_playlists(access_token)
     return render_template('spotifyDisplayPlaylistsTest.html', playlists=playlistTest, redirect_url=PLAYLIST_UPLOAD_URL)
 
@@ -75,22 +76,46 @@ def analysePlaylist(playlist_id):
     global IMAGE_BASE
     playlistName = uploadedPlaylist.name
     topArtists = spotify.getTopArtists(uploadedPlaylist)[:3]
+    artistNames = list()
+    for artist in topArtists:
+        artistNames.append(artist)
+    session['topArtists'] = artistNames
     topAlbums = spotify.getTopAlbums(uploadedPlaylist)[:3]
     check_url = spotify.SERVER_URL + "/checkAvailability"
+    checkArtistVinylUrl = spotify.SERVER_URL + "/checkArtistVinyl"
     return render_template('spotifyAnalyseTest.html', topArtists=topArtists, topAlbums=topAlbums,
-                           playlistName=playlistName, check_url=check_url, img_base=IMAGE_BASE)
+                           playlistName=playlistName, check_url=check_url, img_base=IMAGE_BASE, checkArtistVinylUrl=checkArtistVinylUrl)
 
 
 @app.route("/checkAvailability/<album_img>")
 def checkAvailability(album_img):
     shipping_url = spotify.SERVER_URL + "/enterShippingDetails"
     card_url = spotify.SERVER_URL + "/enterCardDetails"
+    request_url = spotify.SERVER_URL + "/enterRequestDetails"
     global uploadedPlaylist
     global playlistImg
     global IMAGE_BASE
     album_img = album_img
+    available = spotify.checkAlbumAvailability(album_img)
     return render_template('spotifyCheckAvailability.html', card_url=card_url,
-                           shipping_url=shipping_url, playlist_img=album_img, img_base=IMAGE_BASE)
+                           shipping_url=shipping_url, playlist_img=album_img, img_base=IMAGE_BASE,
+                           request_url=request_url, available=available)
+
+@app.route("/checkArtistVinyl/<artistNum>")
+def checkArtistVinyl(artistNum):
+    artistName = session.get('topArtists')[int(artistNum)]['name']
+    check_url = spotify.SERVER_URL + "/checkAvailability"
+    global uploadedPlaylist
+    global playlistImg
+    global IMAGE_BASE
+    availableVinyls = spotify.getAvailableVinylsByArtist(artistName)
+    print("eaifhefa", availableVinyls)
+    available = False
+    if len(availableVinyls) > 0:
+        available = True
+    home_url = spotify.SERVER_URL + "/home"
+    check_url = spotify.SERVER_URL + "/checkAvailability"
+    return render_template('checkAvailableVinyls.html', check_url=check_url, home_url=home_url, artistName=artistName, available=available, availableVinyls=availableVinyls)
 
 
 @app.route("/enterShippingDetails")
@@ -103,9 +128,15 @@ def enterShippingDetails():
 @app.route("/enterCardDetails")
 def enterCardDetails():
     success_url = spotify.SERVER_URL + "/paymentSuccessful"
-    print("Success URL", success_url)
     return render_template('enterCardDetails.html',
                            success_url=success_url)
+
+
+@app.route("/enterRequestDetails")
+def enterRequestDetails():
+    request_success_url = spotify.SERVER_URL + "/requestSuccessful"
+    return render_template('enterRequestDetails.html',
+                           request_success_url=request_success_url)
 
 
 @app.route("/paymentSuccessful")
@@ -114,6 +145,14 @@ def paymentSuccessful():
     global IMAGE_BASE
     home_url = spotify.SERVER_URL + "/home"
     return render_template('shippingSuccess.html',
+                           home_url=home_url, img_base=IMAGE_BASE)
+
+@app.route("/requestSuccessful")
+def requestSuccessful():
+    global at
+    global IMAGE_BASE
+    home_url = spotify.SERVER_URL + "/home"
+    return render_template('requestSuccess.html',
                            home_url=home_url, img_base=IMAGE_BASE)
 
 # Hamza
