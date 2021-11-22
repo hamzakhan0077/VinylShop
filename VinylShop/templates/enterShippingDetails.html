@@ -5,6 +5,7 @@
 
 {% endblock %}
 
+
 {% block shipping %}
 
 <section class="hero">
@@ -19,9 +20,52 @@
 
 
 <div class="container">
-  <h1>Shipping</h1>
+  <div class="form-header">
+        <h4 class="title">Shipping </h4>
+      </div>
+
+      <div class="form-body">
+        <from method = "POST" action= "" >
+          {{ form.hidden_tag() }}
+          <fieldset class = "form-group">
+            <legend> Please Enter Shipping Details </legend>
+
+            <div class="fields fields--2">
+              {{ form.first_name.label(class = "field__label") }}
+              {{ form.first_name(class="field__input") }}
+
+            </div>
+
+            <div class="fields fields--2">
+              {{ form.last_name.label(class="field__label") }}
+              {{ form.last_name(class="field__input") }}
+
+            </div>
+            <div class="fields fields--2">
+              {{ form.address.label(class = "field__label") }}
+              {{ form.address(class="field__input") }}
+
+            </div>
+
+            <div class="fields fields--2">
+              {{ form.postcode.label(class = "field__label") }}
+              {{ form.postcode(class="field__input") }}
+
+            </div>
+
+          </fieldset>
+
+           <div>
+
+              {{ form.submit(class="hero-button") }}
+
+            </div>
+
+
+
+  <!--- <h1>Shipping</h1>
   <p>Please enter your shipping details.</p>
-  <hr />
+
   <div class="form">
 
   <div class="fields fields--2">
@@ -47,6 +91,8 @@
     <span class="field__label" for="address">Postcode</span>
     <input class="field__input" type="text" id="postcode" />
   </label>
+  --->
+    <!---
       <label class="field">
     <span class="field__label" for="address">Town</span>
     <input class="field__input" type="text" id="town" />
@@ -55,10 +101,12 @@
     <span class="field__label" for="address">City</span>
     <input class="field__input" type="text" id="city" />
   </label>
+  -->
   </div>
+<!---
   </div>
   <hr>
   <a href="{{card_url}}"><button class="hero-button">Continue</button></a>
 </div>
-
+-->
 {% endblock %}
