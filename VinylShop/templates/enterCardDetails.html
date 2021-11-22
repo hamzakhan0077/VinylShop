@@ -23,10 +23,53 @@
       </div>
 
       <div class="form-body">
-        <!-- Card Number -->
+        <from method = "POST" action= "" >
+          {{ form.hidden_tag() }}
+          <fieldset class = "form-group">
+            <legend> Please Enter Card Details </legend>
+            <div class="form-group">
+              {{ form.card_number.label }}
+              {{ form.card_number(class="card-number") }}
+
+            </div>
+
+            <div class="date-field">
+              {{ form.month.label }}
+              {{ form.month(class="month") }}
+
+            </div>
+            <div class="date-field">
+              {{ form.year.label }}
+              {{ form.year(class="year") }}
+
+            </div>
+
+            <div class="card-verification">
+              {{ form.cvv.label }}
+              {{ form.cvv(class="cvv-input") }}
+
+            </div>
+
+          </fieldset>
+
+           <div>
+
+              {{ form.submit(class="hero-button") }}
+
+            </div>
+
+
+
+
+
+
+        </from>
+
+
+        <!-- Card Number
         <input type="text" class="card-number" placeholder="Card Number">
 
-        <!-- Date Field -->
+         Date Field
         <div class="date-field">
           <div class="month">
             <select name="Month">
@@ -62,7 +105,8 @@
           </div>
         </div>
 
-        <!-- Card Verification Field -->
+
+         Card Verification Field
         <div class="card-verification">
           <div class="cvv-input">
             <input type="text" placeholder="CVV">
@@ -70,12 +114,13 @@
           <div class="cvv-details">
             <p>3 or 4 digits usually found <br> on the signature strip</p>
           </div>
+         -->
         </div>
 
-        <!-- Buttons -->
+
+        <!-- Buttons
         <a href={{success_url}}><button button class="hero-button">PAY</button></a>
-      </div>
+        -->
     </div>
 
 {% endblock %}
-
