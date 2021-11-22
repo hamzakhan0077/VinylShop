@@ -118,17 +118,25 @@ def checkArtistVinyl(artistNum):
     return render_template('checkAvailableVinyls.html', check_url=check_url, home_url=home_url, artistName=artistName, available=available, availableVinyls=availableVinyls)
 
 
-@app.route("/enterShippingDetails")
+@app.route("/enterShippingDetails",methods=['GET','POST'])
 def enterShippingDetails():
-    card_url = spotify.SERVER_URL + "/enterCardDetails"
-    return render_template('enterShippingDetails.html',
+    form = ShippingDetails()
+    if form.validate_on_submit():
+        card_url = spotify.SERVER_URL + "/enterCardDetails"
+        # DO YOU WANT TO REDIRECT USER HERE  IF THE INPUT IS VALID @Paul
+    
+     return render_template('enterShippingDetails.html', title='Shipping', form=form,
                            card_url=card_url)
 
 
-@app.route("/enterCardDetails")
+@app.route("/enterCardDetails",methods=['GET','POST'])
 def enterCardDetails():
-    success_url = spotify.SERVER_URL + "/paymentSuccessful"
-    return render_template('enterCardDetails.html',
+    form = Card()
+    if form.validate_on_submit():
+        success_url = spotify.SERVER_URL + "/paymentSuccessful"
+        # DO YOU WANT TO REDIRECT USER HERE  IF THE INPUT IS VALID @PAUL
+        
+    return render_template('enterCardDetails.html', title='Card', form=form,
                            success_url=success_url)
 
 
