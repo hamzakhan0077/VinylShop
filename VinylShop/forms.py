@@ -50,18 +50,18 @@ class PostForm(FlaskForm):
 
 class Card(FlaskForm):
     card_number = IntegerField('Card Number',validators= [DataRequired(),NumberRange(min=16,
-                                                                                     max=16,message="Error! The card number must be of 16 digits.")])
+                                                                                     message="Error! The card number must be of 16 digits.")])
 
     MONTH_CHOICES = [('Jan','January'),('Feb','February'),('Mar','March'),('Apr','April'),
                      ('May','May'),('Jun','June'),('Jul','July'),('Aug','August'),
                      ('Sep','September'),('Oct','October'),('Nov','November'),('Dec','December')]
-    month = SelectField('Month',validators=DataRequired(),choices=MONTH_CHOICES)
+    month = SelectField('Month',choices=MONTH_CHOICES)
 
     YEAR_CHOICES = [('0', '2021'), ('1', '2022'), ('2', '2023'), ('3', '2024'), ('4', '2025'), ('5', '2026'),
                     ('6', '2027'), ('7', '2028'), ('8', '2029'), ('9', '2030'), ('10', '2031'), ('11', '2032')]
-    year = SelectField('Year',validators=DataRequired(),choices=YEAR_CHOICES)
+    year = SelectField('Year',choices=YEAR_CHOICES)
 
-    cvv = IntegerField('CVV', validators=[DataRequired(), NumberRange(min=3, max=3,
+    cvv = IntegerField('CVV', validators=[DataRequired(), NumberRange(min=3,
                                                                       message="Error! The CVV number must be of 3 digits.")])
 
     submit = SubmitField('Pay')
@@ -73,6 +73,17 @@ class ShippingDetails(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired()])
     submit = SubmitField('Continue')
+
+
+class requestDetails(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(),Email()])
+    phone_number = IntegerField('Phone Number', validators=[DataRequired()])
+    submit = SubmitField('Continue')
+
+
+
+
+
 
 
 
