@@ -32,75 +32,75 @@ class User (db.Model,UserMixin):
     def __repr__(self): # how our object is printed when we print it out
         return f"User('{self.username}',{self.email})"
 
-
-class Uploads(db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey('user.username'), nullable=False)
-
-    # Add the  __repr__
-
-
-class Playlist(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    playlist_name = db.Column(db.String(120),nullable=False)
-    # date_created= db.Column(db.DateTime,nullable=False,default = datetime.utcnow)
-    # content = db.Column(db.Text ,nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable = False)
-
-    def __repr__(self):  # how our object is printed when we print it out
-        return f"Playlist ('{self.playlist_name}')"
-        # return f"Playlist ('{self.playlist_name}',{self.date_created})"
-
-
-class Contains(db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey('playlist.username'), nullable=False)
-
-    # Add the  __repr__
-
-
-
-
-class Song(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120),nullable=False)
-
-    def __repr__(self): # how our object is printed when we print it out
-        return f"User('{self.name})"
-
-
-
-
-
-
-class isPartOf(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    # add the __repr__
-
-
-
-class album(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    artist = db.Column(db.String(120),nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-
-    def __repr__(self): # how our object is printed when we print it out
-        return f"User('{self.artist}, {self.name})"
-
-
-class inStock(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    # ad repr if you want to
-
-
-
-class vinyl(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    name = db.Column(db.String(120), nullable=False)
-
-    def __repr__(self):  # how our object is printed when we print it out
-        return f"User('{self.name})"
-
+#
+# class Uploads(db.Model):
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.username'), nullable=False)
+#
+#     # Add the  __repr__
+#
+#
+# class Playlist(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     playlist_name = db.Column(db.String(120),nullable=False)
+#     # date_created= db.Column(db.DateTime,nullable=False,default = datetime.utcnow)
+#     # content = db.Column(db.Text ,nullable=False)
+#     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable = False)
+#
+#     def __repr__(self):  # how our object is printed when we print it out
+#         return f"Playlist ('{self.playlist_name}')"
+#         # return f"Playlist ('{self.playlist_name}',{self.date_created})"
+#
+#
+# class Contains(db.Model):
+#     user_id = db.Column(db.Integer, db.ForeignKey('playlist.username'), nullable=False)
+#
+#     # Add the  __repr__
+#
+#
+#
+#
+# class Song(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(120),nullable=False)
+#
+#     def __repr__(self): # how our object is printed when we print it out
+#         return f"User('{self.name})"
+#
+#
+#
+#
+#
+#
+# class isPartOf(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#
+#     # add the __repr__
+#
+#
+#
+# class album(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     artist = db.Column(db.String(120),nullable=False)
+#     name = db.Column(db.String(120), nullable=False)
+#
+#     def __repr__(self): # how our object is printed when we print it out
+#         return f"User('{self.artist}, {self.name})"
+#
+#
+# class inStock(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     # ad repr if you want to
+#
+#
+#
+# class vinyl(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#
+#     name = db.Column(db.String(120), nullable=False)
+#
+#     def __repr__(self):  # how our object is printed when we print it out
+#         return f"User('{self.name})"
+#
 
 if __name__ == '__main__':
     pass

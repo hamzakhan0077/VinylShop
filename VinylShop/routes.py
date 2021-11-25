@@ -121,39 +121,42 @@ def checkArtistVinyl(artistNum):
 @app.route("/enterShippingDetails",methods=['GET','POST'])
 def enterShippingDetails():
     form = ShippingDetails()
+    # card_url = spotify.SERVER_URL + "/enterCardDetails"
     if form.validate_on_submit():
-        card_url = spotify.SERVER_URL + "/enterCardDetails"
-        # DO YOU WANT TO REDIRECT USER HERE  IF THE INPUT IS VALID @Paul
-    
-     return render_template('enterShippingDetails.html', title='Shipping', form=form,
-                           card_url=card_url)
+        return redirect(url_for('enterCardDetails'))
+    return render_template('enterShippingDetails.html', title='Shipping', form=form)
 
 
 @app.route("/enterCardDetails",methods=['GET','POST'])
 def enterCardDetails():
     form = Card()
+    # success_url = spotify.SERVER_URL + "/paymentSuccessful"
     if form.validate_on_submit():
-        success_url = spotify.SERVER_URL + "/paymentSuccessful"
-        # DO YOU WANT TO REDIRECT USER HERE  IF THE INPUT IS VALID @PAUL
-        
-    return render_template('enterCardDetails.html', title='Card', form=form,
-                           success_url=success_url)
+        return redirect(url_for('paymentSuccessful'))
 
 
-@app.route("/enterRequestDetails")
+    return render_template('enterCardDetails.html', title='Card', form=form)
+
+
+@app.route("/enterRequestDetails",methods=['GET', 'POST'])
 def enterRequestDetails():
-    request_success_url = spotify.SERVER_URL + "/requestSuccessful"
-    return render_template('enterRequestDetails.html',
-                           request_success_url=request_success_url)
+    form = requestDetails()
+    # request_success_url = spotify.SERVER_URL + "/requestSuccessful"
+    if form.validate_on_submit():
+        return redirect(url_for('requestSuccessful'))
+    return render_template('enterRequestDetails.html',title='requestDetails',form=form)
 
 
 @app.route("/paymentSuccessful")
 def paymentSuccessful():
+
     global at
     global IMAGE_BASE
     home_url = spotify.SERVER_URL + "/home"
     return render_template('shippingSuccess.html',
                            home_url=home_url, img_base=IMAGE_BASE)
+
+
 
 @app.route("/requestSuccessful")
 def requestSuccessful():
