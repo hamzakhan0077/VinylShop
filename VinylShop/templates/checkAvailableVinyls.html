@@ -10,15 +10,27 @@
     </section>
 
 {% if available %}
-
+<br>
+    <br>
+    <center><h1>Vinyls By {{artistName}} Are In Stock! </h1></center>
+    <br>
+    <br>
 {% for vinyl_img in availableVinyls %}
 <div style="text-align: center">
-    <h1>In Stock! </h1>
+
   {% set playlistImgUrl = 'https://mosaic.scdn.co/640/' ~ vinyl_img %}
 <img src={{playlistImgUrl}} height="240px" width="240px">
     {% set check_url_full = (check_url ~ '/' ~ vinyl_img) %}
-    <center><a href={{check_url_full}}><button class="hero-button">Select Vinyl For Purchase</button></a></center>
+    <center><a href={{check_url_full}}><button class="hero-button">Select This Vinyl For Purchase</button></a></center>
+    <br>
+    <br>
+    <br>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
 {% endfor %}
 
 {% else %}

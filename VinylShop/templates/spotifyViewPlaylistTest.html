@@ -19,8 +19,6 @@
     <section class="albums">
         <div style="text-align: center;">
         <a href={{analyse_url}}><button class="hero-button">ANALYSE</button></a>
-	<a href=""><button class="hero-button">RENAME</button></a>
-	<a href=""><button class="hero-button">DELETE</button></a>
         </div>
 	<br>
 	<br>
@@ -39,8 +37,8 @@
    <td>{{song.name}}</td>
       {% set img_src_artist = (img_base ~ song.artist_img) %}
       {% set img_src_album = (img_base ~ song.album_img) %}
-    <td><img src={{img_src_artist}} style="height:180px; float: right">{{song.artist}}</td>
-    <td><img src={{img_src_album}} style="height:180px; float: right">{{song.album}}</td>
+    <td><img src={{img_src_artist}} style="height:120px; width:120px; float: right">{{song.artist}}</td>
+    <td><img src={{img_src_album}} style="height:120px; width:120px; float: right">{{song.album}}</td>
   </tr>
   {% endfor %}
 </table>
