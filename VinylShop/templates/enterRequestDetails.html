@@ -21,22 +21,39 @@
 <div class="container">
   <h1>Notification Details</h1>
   <p>We will notify you when the vinyl is in stock</p>
-  <hr />
-  <div class="form">
 
-  <div class="fields fields--2">
-    <label class="field">
-      <span class="field__label" for="firstname">Email Address</span>
-      <input class="field__input" type="text" id="firstname" value="" />
-    </label>
-    <label class="field">
-      <span class="field__label" for="lastname">Phone Number</span>
-      <input class="field__input" type="text" id="lastname" value="" />
-    </label>
-  </div>
-  </div>
-  <hr>
-  <a href="{{request_success_url}}"><button class="hero-button">Request Vinyl</button></a>
+  <div class="form-body">
+        <form method = "POST" action= "" >
+          {{ form.hidden_tag() }}
+          <fieldset class = "form-group">
+            <legend> Please enter details</legend>
+            <div class="form-group">
+              {{ form.email.label }}
+              {{ form.email(class="field__input") }}
+
+            </div>
+
+            <div class=form-group">
+              {{ form.phone_number.label }}
+              {{ form.phone_number(class="field__input") }}
+
+            </div>
+
+
+          </fieldset>
+
+           <div>
+
+              {{ form.submit(class="hero-button") }}
+
+            </div>
+
+
+
+
+        </form>
+      </div>
 </div>
+
 
 {% endblock %}
