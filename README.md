@@ -12,7 +12,8 @@ Steps to run the app.(Windows) -  for linux it is almost same just running the v
 5. cd into <environmnet directory>/Scripts
 6. Type:  activate.bat
 7. Your virtual environment is now active you will see some thing like
-  (yourEnvironment Name) C:\Users\hassa\PycharmProjects\Test\VinylShop-main>
+  
+  (yourEnvironment Name)C:\Users\hassa\PycharmProjects\Test\VinylShop-main>
 8. Now you will install the requirements (while being in venv)
   run command:  pip install -r requirements.txt
 9. navigate to the root directory of the project 
