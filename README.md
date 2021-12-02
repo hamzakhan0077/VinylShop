@@ -3,12 +3,12 @@ create the venv in the root directory of the project
 
 then u install requirements.txt once you are in the virtual environmnet 
 
-Steps to run the app.(Windows) -  for linux it is almost same just running the venv command is : source <venv Name>/test/bin/activate
+Steps to run the app.(Windows) -  for linux it is almost same just running the venv command is : source (venv Name)/test/bin/activate
 
 1. Download the project file as zip
 2. Un zip it
 3. open terminal in your ide or local machine it is up to you 
-4. create a virtual environment using - command: python -m venv <<Whatever you want to name the environment>>
+4. create a virtual environment using - command: python -m venv (Whatever you want to name the environment)
 5. cd into <environmnet directory>/Scripts
 6. Type:  activate.bat
 7. Your virtual environment is now active you will see some thing like
